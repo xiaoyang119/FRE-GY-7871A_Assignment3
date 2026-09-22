@@ -30,8 +30,9 @@ Two design choices follow from this:
    extension, not for identification.
 2. **Global variables.** The 2003 paper used nine U.S. variables; I use a global
    set (U.S. Treasuries + inflation breakeven, U.S. and European equities,
-   Brent oil, gold, the dollar, and U.S. credit spreads), normalizing on the
-   **2-year Treasury yield** exactly as the paper does.
+   Brent oil, gold, the dollar, and U.S. credit spreads).  I begin with the
+   paper's normalization on the **2-year Treasury yield**, but that anchor fails
+   in 2026, so the substantive estimates re-anchor on **Brent** (§4.1).
 
 ---
 
@@ -39,7 +40,7 @@ Two design choices follow from this:
 
 | Variable | Source | Id | Units of daily change |
 |---|---|---|---|
-| 2-Year Treasury Yield (anchor) | FRED | DGS2 | percentage points |
+| 2-Year Treasury Yield (paper's anchor) | FRED | DGS2 | percentage points |
 | 10-Year Treasury Yield | FRED | DGS10 | percentage points |
 | 10Y Breakeven Inflation | FRED | T10YIE | percentage points |
 | S&P 500 | Yahoo | ^GSPC | percent (log) |
@@ -70,7 +71,7 @@ top decile of intensity are **H** (flag = 1); all other trading days are **L**
 
 ### 3.2 Heteroskedasticity-based identification
 
-For each pair (anchor Δx₁ = 2Y yield, variable Δx₂ = j), the reduced form is
+For each pair (anchor Δx₁, variable Δx₂ = j), the reduced form is
 Δx = D·z + μ with the war-risk factor z₁ normalized to a unit impact on Δx₁.
 The covariance matrix is Ω = DΣzD′ + Ση. Under the identifying assumptions
 (war risk orthogonal to other factors; only its variance shifts across H/L),
@@ -90,10 +91,17 @@ d_w3 = inverse-variance-weighted combination
 Variances are mean squares (mean of Δx², mean of Δx₁·Δx₂), matching the paper's
 footnote 12. Standard errors are bootstrapped (resampling H and L separately,
 3 000 draws), so the t-statistics are robust to the small H sample and to
-unequal H/L sizes. Reported coefficients are multiplied by **−0.25**, i.e. the
-effect of a war-risk *increase* large enough to move the 2Y yield **−25 bp**.
+unequal H/L sizes.
 
-Table 3 reports the variance decomposition: `predicted change = d²·ΔVar(2Y)`,
+Only the loadings *relative to the anchor* are identified, so coefficients are
+scaled by the anchor move that defines the war-risk "unit":
+
+- **2Y-yield anchor** — × **−0.25**: a war-risk increase large enough to move the
+  2Y yield **−25 bp** (the paper's normalization; `table2_sensitivity.csv`);
+- **Brent anchor** — × **+10**: a war-risk increase large enough to raise Brent
+  by **$10** (the substantive estimates; `table2_sensitivity_BRENT.csv`, §4.3).
+
+Table 3 reports the variance decomposition: `predicted change = d²·ΔVar(anchor)`,
 `% on H days = pred/Var_H(xⱼ)`, and `% on all days = n_H·pred / (n_H·Var_H +
 n_L·Var_L)` (a lower bound, assuming daily independence).
 
@@ -135,7 +143,8 @@ for an Iran (energy-chokepoint) shock.
 headlines each (`outputs/table1_war_news_days.csv`), all in early March plus
 1 Apr and 8 Apr.  Direction (war lexicon + FinBERT) classifies **13 as bad
 (escalation)** and **1 as good** (8 Apr, `lex_net = −12`: "US and Iran agree to
-a two-week ceasefire").
+a two-week ceasefire").  A representative subset is shown below; the full list
+is in the CSV.
 
 | date | n | lex_net | regime | representative headline |
 |---|---|---|---|---|
@@ -168,7 +177,7 @@ just-identified estimators; `d_w3` is the combined one.
 | US BBB OAS (pp) | 0.023 | 0.033 | 0.026 | 1.31 |
 
 Two effects are significant: a war-risk shock **lowers European equities**
-(−2.4%, t = 2.9) and **widens high-yield credit spreads** (+11.7 bp, t = 3.1);
+(−2.4%, t = 2.8) and **widens high-yield credit spreads** (+11.7 bp, t = 3.1);
 the dollar strengthens weakly (t = 1.5) while Treasury yields do not respond.
 
 ### 4.4 Table 3 — variance decomposition (Brent anchor)
@@ -242,7 +251,7 @@ The professor's prior, checked against the Brent-anchored Table 2:
 | Breakeven inflation | fell | ambiguous | +0.8 bp, t = 0.4 (nil) |
 | Oil | rose | rise | anchor (by construction the shock raises Brent) |
 | Credit spreads | widened | widen | **widen** — HY +11.7 bp (**t = 3.1**), BBB +2.6 bp (t = 1.3) |
-| Equities | fell | fall | **fall** — Euro Stoxx 50 −2.4% (**t = 2.9**), S&P 500 −0.9% (t = 1.0) |
+| Equities | fell | fall | **fall** — Euro Stoxx 50 −2.4% (**t = 2.8**), S&P 500 −0.9% (t = 1.0) |
 | Gold | barely moved | muted | −$87, t = 0.8 (nil) |
 | Dollar | fell | — | +0.55%, t = 1.5 (appreciates weakly — opposite to 2003) |
 
@@ -329,8 +338,8 @@ for, and no more than that.
 - **Regime confound** (§6): war onset vs. post-war macro drift is not separable
   in a single H/L contrast over 6.5 months.
 - **Flag threshold is arbitrary** (top decile by default); the H set and thus d
-  move with `--quantile`. A robustness table across quantiles belongs in the
-  final notebook.
+  move with `--quantile`.  A sensitivity check across quantiles 0.80–0.95 is in
+  §4.5 — the coefficients barely move — but the headline level is still a choice.
 - **NLP noise — and a multilingual surprise.** GDELT volume counts *mentions*,
   not uniquely war-relevant stories, and FinBERT is finance-tuned rather than
   geopolitics-tuned.  More concretely: the first headline pull carried **no
