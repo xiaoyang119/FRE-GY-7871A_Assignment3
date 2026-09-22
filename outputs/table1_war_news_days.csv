@@ -1,0 +1,15 @@
+date,n_headlines,lex_net,fb_pos,fb_neg,top_title,regime
+2026-03-03,25,3,0.0536128995195031,0.2541944765299558,Iran and the US have been at war for decades . Here when it began,bad
+2026-03-04,25,7,0.0667104363441467,0.3038583841919899,"Trump Declares War On Iran , But Reasons For War Keep Changing",bad
+2026-03-05,25,7,0.0912900006771087,0.3003640315681696,Rand Paul excoriates Congress for failure to pass War Powers act,bad
+2026-03-06,25,3,0.0964405944943428,0.2686891581490636,"US Iran war LIVE : Trump says want to finish Iran first , then Cuba  question of time",bad
+2026-03-09,25,1,0.0730515215545892,0.0998375859856605,Iran War News Live : Mojtaba Khamenei is Iran new supreme leader ; oil prices breach $100 - mark ; fresh missile alerts across Gulf,bad
+2026-03-10,25,13,0.0905776837468147,0.4453337421268225,"Iran IRGC Responds To Trump , Says It Will Be The One Who Will  Determine The End Of War",bad
+2026-03-11,25,5,0.0456251624971628,0.3652167223393917,US senator unveils secrets about Trump plans for Iran war,bad
+2026-03-12,25,8,0.1173085011541843,0.2708343084156513,Gas runs out at  Ladu Samrat : LPG crisis shuts iconic Mumbai vada pav hub | Mumbai News,bad
+2026-03-13,25,8,0.1147364220768213,0.2987060348689556,"Iran War News Live : Iran claims US aircraft carrier Lincoln struck , Washington denies damage",bad
+2026-03-16,25,8,0.100492436774075,0.2409720016270876,"Iran War News Live : Dubai Airport suspends ops after drone strikes ; After France , Japan says no to Trump Hormuz plan",bad
+2026-03-17,25,1,0.0691743147745728,0.6842480254173279,"Top US counterterrorism official resigns over Iran war , blames  Israel , its powerful American lobby  for conflict",bad
+2026-03-18,25,4,0.0865175457298755,0.4673538069427013,Trump news at a glance : calls for former counter - terror chief to face Congress after quitting over Iran war,bad
+2026-04-01,25,1,0.0654657785594463,0.1450214937329292,Why the US is at war with Iran,bad
+2026-04-08,25,-12,0.098518350943923,0.3184556496888399,Trump Confounds Critics Again | The American Spectator,good

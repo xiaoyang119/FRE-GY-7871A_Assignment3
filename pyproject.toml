@@ -1,0 +1,21 @@
+[project]
+name = "iran-war-risk"
+version = "0.1.0"
+description = "Iran war risk (2026): heteroskedasticity-based identification of global financial variables — Rigobon & Sack (2003) replication with NLP day-flagging"
+requires-python = ">=3.10"
+dependencies = [
+    "pandas>=2.2",
+    "numpy>=1.26",
+]
+
+[project.optional-dependencies]
+# FinBERT — only needed by scripts/03_headlines.py (skip with --no-finbert).
+finbert = [
+    "torch>=2.6,<3",
+    "transformers>=4.40,<6",
+]
+
+[tool.uv]
+# This is a scripts-only project (no installable package): uv sync just creates
+# the .venv and installs the dependencies above.
+package = false

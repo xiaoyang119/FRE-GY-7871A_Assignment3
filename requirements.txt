@@ -1,0 +1,5 @@
+pandas>=2.0
+numpy>=1.24
+# FinBERT (only needed by scripts/03_headlines.py; skip with --no-finbert):
+torch>=2.0
+transformers>=4.40
