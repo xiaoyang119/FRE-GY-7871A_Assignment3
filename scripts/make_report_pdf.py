@@ -74,13 +74,25 @@ def main():
     print(f"wrote {html_path}")
 
     chrome = find_chrome()
-    cmd = [chrome, "--headless=new", "--disable-gpu", "--no-pdf-header-footer",
-           f"--print-to-pdf={out.resolve()}", html_path.resolve().as_uri()]
-    print("running:", " ".join(cmd[:3]), "...")
-    subprocess.run(cmd, check=True, timeout=180)
-    if not out.exists():
-        raise SystemExit("PDF was not produced")
-    print(f"wrote {out.resolve()}  ({out.stat().st_size/1024:.0f} KB)")
+    url = html_path.resolve().as_uri()
+    base = ["--disable-gpu", "--no-pdf-header-footer",
+            f"--print-to-pdf={out.resolve()}", url]
+    for mode in ("--headless=new", "--headless"):  # older Chrome wants the latter
+        if out.exists():
+            out.unlink()
+        print(f"running chrome ({mode}) ...")
+        try:
+            subprocess.run([chrome, mode, *base], check=False, timeout=180,
+                           stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        except Exception as e:  # noqa: BLE001
+            print(f"  {mode} failed: {type(e).__name__}")
+            continue
+        if out.exists():
+            print(f"wrote {out.resolve()}  ({out.stat().st_size/1024:.0f} KB)")
+            return
+    raise SystemExit(
+        "Chrome did not produce a PDF.  Open report.html in a browser and use "
+        "Ctrl+P -> Save as PDF instead.")
 
 
 if __name__ == "__main__":
