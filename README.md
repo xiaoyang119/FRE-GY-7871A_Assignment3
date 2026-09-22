@@ -42,7 +42,8 @@ uv run python scripts/00_collect_market.py
 uv run python scripts/01_collect_news.py      # GDELT rate-limits: may retry a few minutes
 uv run python scripts/02_flag_days.py         # add --quantile 0.85 to tune the H/L split
 uv run python scripts/03_headlines.py         # needs the finbert extra; --no-finbert = lexicon only
-uv run python scripts/04_estimate.py
+uv run python scripts/04_estimate.py           # add --anchor BRENT --shock 10 for the oil anchor
+uv run python scripts/05_verify.py             # independent checks: rank-1, placebo, sensitivity
 ```
 
 (Equivalently, use `.venv\Scripts\python.exe` directly after `uv sync`.)
@@ -68,10 +69,24 @@ share of variance attributable to war news as a lower bound.
 
 ## Outputs
 
-- `outputs/table1_war_news_days.csv` — the flagged high-news days (events + regime)
-- `outputs/table2_sensitivity.csv`  — war-risk impact per variable (3 estimators)
-- `outputs/table3_variance.csv`     — variance decomposition
+- `outputs/table1_war_news_days.csv`     — the flagged high-news days (headline + regime)
+- `outputs/table2_sensitivity.csv`       — war-risk impact per variable, 2Y anchor (paper-faithful)
+- `outputs/table3_variance.csv`          — variance decomposition, 2Y anchor
+- `outputs/table2_sensitivity_BRENT.csv` — same, Brent anchor (the substantive estimates)
+- `outputs/table3_variance_BRENT.csv`    — same, Brent anchor
 
 See `REPORT.md` for the full write-up, including the evaluation of whether
 heteroskedasticity-based identification is the best approach and the
 alternatives considered.
+
+## Report → PDF
+
+`scripts/make_report_pdf.py` renders `REPORT.md` to `report.pdf` through styled
+HTML plus headless Chrome (no pandoc or LaTeX required):
+
+```powershell
+uv run python scripts/make_report_pdf.py REPORT.md report.pdf
+```
+
+If Chrome cannot be launched, open the generated `report.html` in any browser
+and print to PDF (Ctrl+P → *Save as PDF*).

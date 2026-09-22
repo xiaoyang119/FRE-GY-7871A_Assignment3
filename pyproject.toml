@@ -6,6 +6,8 @@ requires-python = ">=3.10"
 dependencies = [
     "pandas>=2.2",
     "numpy>=1.26",
+    # only used by scripts/make_report_pdf.py (Markdown -> HTML for the PDF)
+    "markdown-it-py>=3.0",
 ]
 
 [project.optional-dependencies]
