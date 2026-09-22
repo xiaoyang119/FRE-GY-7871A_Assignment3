@@ -1,6 +1,8 @@
 # Iran War Risk 2026 — Sensitivity of Global Financial Variables
 
+**Xiaoyang Zhang** · NYU ID: **xz5476**
 **FRE-GY 7871 A · NLP and the Investment Process · Fall 2026**
+Repository: <https://github.com/xiaoyang119/FRE-GY-7871A_Assignment3>
 
 Replication of Rigobon & Sack (2003), *The Effects of War Risk on U.S. Financial
 Markets*, applied to the **2026 Iran war** (window **28 Feb 2026 → present**).
@@ -8,11 +10,6 @@ The unobservable war-risk factor is recovered with
 **identification-through-heteroskedasticity** (Rigobon 2003), using **NLP on war
 news** (GDELT volume + FinBERT + a war lexicon) to flag high/low news days — the
 paper's hand-read newspaper list, automated.
-
-> **How to fill the tables:** run `python scripts/04_estimate.py` (after
-> `00→03`). It writes `outputs/table1_war_news_days.csv`,
-> `outputs/table2_sensitivity.csv`, `outputs/table3_variance.csv`. Paste them
-> into §4 below.
 
 ---
 
